@@ -86,3 +86,7 @@
 !*.elf
 !*.bmm
 !*.xmp
+
+LongTeng-GPU.cache/**
+LongTeng-GPU.runs/**
+
