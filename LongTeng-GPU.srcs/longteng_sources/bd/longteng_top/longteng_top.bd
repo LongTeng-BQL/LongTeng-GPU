@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x2403E8C6FBD19504",
+      "boundary_crc": "0x427A1F3161D1A032",
       "device": "xc7k325tffg676-2",
       "gen_directory": "../../../../LongTeng-GPU.gen/longteng_sources/bd/longteng_top",
       "name": "longteng_top",
@@ -12,14 +12,15 @@
     },
     "design_tree": {
       "pcie_controller": "",
-      "ddr3_controller": "",
-      "util_ds_buf_0": "",
-      "clk_wiz_0": "",
-      "axi_smc": "",
-      "rst_ddr3_controller_200M": ""
+      "pcie_clock_generator": "",
+      "axi_controller": "",
+      "memory_controller": "",
+      "memory_clock_generator": "",
+      "memory_reset_controller": "",
+      "pcie_reset_controller": ""
     },
     "interface_ports": {
-      "pcie_ref_clk": {
+      "clk_pcie_ref": {
         "mode": "Slave",
         "vlnv_bus_definition": "xilinx.com:interface:diff_clock:1.0",
         "vlnv": "xilinx.com:interface:diff_clock_rtl:1.0",
@@ -35,44 +36,44 @@
         },
         "port_maps": {
           "CLK_P": {
-            "physical_name": "pcie_ref_clk_clk_p",
+            "physical_name": "clk_pcie_ref_clk_p",
             "direction": "I",
             "left": "0",
             "right": "0"
           },
           "CLK_N": {
-            "physical_name": "pcie_ref_clk_clk_n",
+            "physical_name": "clk_pcie_ref_clk_n",
             "direction": "I",
             "left": "0",
             "right": "0"
           }
         }
       },
-      "pcie_7x_mgt_rtl_0": {
+      "pcie_connector": {
         "mode": "Master",
         "vlnv_bus_definition": "xilinx.com:interface:pcie_7x_mgt:1.0",
         "vlnv": "xilinx.com:interface:pcie_7x_mgt_rtl:1.0",
         "port_maps": {
           "rxn": {
-            "physical_name": "pcie_7x_mgt_rtl_0_rxn",
+            "physical_name": "pcie_connector_rxn",
             "direction": "I",
             "left": "3",
             "right": "0"
           },
           "rxp": {
-            "physical_name": "pcie_7x_mgt_rtl_0_rxp",
+            "physical_name": "pcie_connector_rxp",
             "direction": "I",
             "left": "3",
             "right": "0"
           },
           "txn": {
-            "physical_name": "pcie_7x_mgt_rtl_0_txn",
+            "physical_name": "pcie_connector_txn",
             "direction": "O",
             "left": "3",
             "right": "0"
           },
           "txp": {
-            "physical_name": "pcie_7x_mgt_rtl_0_txp",
+            "physical_name": "pcie_connector_txp",
             "direction": "O",
             "left": "3",
             "right": "0"
@@ -220,7 +221,26 @@
       }
     },
     "ports": {
-      "clk_50M": {
+      "pcie_reset": {
+        "type": "rst",
+        "direction": "I",
+        "parameters": {
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "POLARITY": {
+            "value": "ACTIVE_LOW"
+          }
+        }
+      },
+      "pcie_ready": {
+        "direction": "O"
+      },
+      "ddr3_ready": {
+        "direction": "O"
+      },
+      "clk_50m": {
         "type": "clk",
         "direction": "I",
         "parameters": {
@@ -244,94 +264,75 @@
             "value_src": "default"
           }
         }
-      },
-      "reset_rtl_0": {
-        "type": "rst",
-        "direction": "I",
-        "parameters": {
-          "INSERT_VIP": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "POLARITY": {
-            "value": "ACTIVE_LOW"
-          }
-        }
-      },
-      "init_calib_complete_0": {
-        "direction": "O"
-      },
-      "user_lnk_up_0": {
-        "direction": "O"
       }
     },
     "components": {
       "pcie_controller": {
-        "vlnv": "xilinx.com:ip:xdma:4.1",
-        "ip_revision": "26",
-        "xci_name": "longteng_top_xdma_0_1",
-        "xci_path": "ip/longteng_top_xdma_0_1/longteng_top_xdma_0_1.xci",
+        "vlnv": "xilinx.com:ip:axi_pcie:2.9",
+        "ip_revision": "10",
+        "xci_name": "longteng_top_axi_pcie_0_0",
+        "xci_path": "ip/longteng_top_axi_pcie_0_0/longteng_top_axi_pcie_0_0.xci",
         "inst_hier_path": "pcie_controller",
         "parameters": {
-          "axilite_master_en": {
-            "value": "false"
+          "AXIBAR2PCIEBAR_0": {
+            "value": "0x00000000"
           },
-          "axist_bypass_en": {
-            "value": "false"
+          "AXIBAR_AS_0": {
+            "value": "true"
           },
-          "mode_selection": {
-            "value": "Basic"
+          "BAR0_SCALE": {
+            "value": "Megabytes"
           },
-          "pcie_id_if": {
-            "value": "false"
+          "BAR0_SIZE": {
+            "value": "128"
           },
-          "pf0_Use_Class_Code_Lookup_Assistant": {
-            "value": "false"
+          "BAR_64BIT": {
+            "value": "true"
           },
-          "pf0_base_class_menu": {
+          "BASE_CLASS_MENU": {
             "value": "Display_controller"
           },
-          "pf0_device_id": {
-            "value": "beef"
+          "CLASS_CODE": {
+            "value": "0x030000"
           },
-          "pf0_revision_id": {
-            "value": "00"
+          "DEVICE_ID": {
+            "value": "0xbeef"
           },
-          "pf0_sub_class_interface_menu": {
-            "value": "VGA_compatible_controller"
-          },
-          "pf0_subsystem_id": {
-            "value": "babe"
-          },
-          "pf0_subsystem_vendor_id": {
-            "value": "cafe"
-          },
-          "pl_link_cap_max_link_speed": {
-            "value": "5.0_GT/s"
-          },
-          "pl_link_cap_max_link_width": {
-            "value": "X4"
-          },
-          "vendor_id": {
-            "value": "f00d"
-          },
-          "xdma_num_usr_irq": {
-            "value": "1"
-          },
-          "xdma_pcie_64bit_en": {
-            "value": "true"
-          },
-          "xdma_pcie_prefetchable": {
-            "value": "true"
-          },
-          "xdma_rnum_chnl": {
-            "value": "2"
-          },
-          "xdma_sts_ports": {
+          "ENABLE_CLASS_CODE": {
             "value": "false"
           },
-          "xdma_wnum_chnl": {
-            "value": "2"
+          "INTERRUPT_PIN": {
+            "value": "false"
+          },
+          "MAX_LINK_SPEED": {
+            "value": "5.0_GT/s"
+          },
+          "M_AXI_DATA_WIDTH": {
+            "value": "128"
+          },
+          "NO_OF_LANES": {
+            "value": "X4"
+          },
+          "NUM_MSI_REQ": {
+            "value": "1"
+          },
+          "SUBSYSTEM_ID": {
+            "value": "0xbabe"
+          },
+          "SUBSYSTEM_VENDOR_ID": {
+            "value": "0xcafe"
+          },
+          "SUB_CLASS_INTERFACE_MENU": {
+            "value": "VGA_compatible_controller"
+          },
+          "S_AXI_DATA_WIDTH": {
+            "value": "128"
+          },
+          "VENDOR_ID": {
+            "value": "0xf00d"
+          },
+          "enable_jtag_dbg": {
+            "value": "false"
           }
         },
         "interface_ports": {
@@ -341,148 +342,79 @@
             "address_space_ref": "M_AXI",
             "base_address": {
               "minimum": "0x00000000",
-              "maximum": "0xFFFFFFFFFFFFFFFF",
-              "width": "64"
+              "maximum": "0xFFFFFFFF",
+              "width": "32"
             },
             "parameters": {
               "master_id": {
                 "value": "1"
               }
             }
+          },
+          "S_AXI": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Slave",
+            "memory_map_ref": "S_AXI"
+          },
+          "S_AXI_CTL": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Slave",
+            "memory_map_ref": "S_AXI_CTL"
           }
         },
         "addressing": {
+          "memory_maps": {
+            "S_AXI": {
+              "address_blocks": {
+                "BAR0": {
+                  "base_address": "0",
+                  "range": "4G",
+                  "width": "32",
+                  "usage": "memory",
+                  "offset_base_param": "AXIBAR_0",
+                  "offset_high_param": "AXIBAR_HIGHADDR_0"
+                }
+              }
+            },
+            "S_AXI_CTL": {
+              "address_blocks": {
+                "CTL0": {
+                  "base_address": "0",
+                  "range": "256M",
+                  "width": "28",
+                  "usage": "memory",
+                  "offset_base_param": "BASEADDR",
+                  "offset_high_param": "HIGHADDR"
+                }
+              }
+            }
+          },
           "address_spaces": {
             "M_AXI": {
-              "range": "16E",
-              "width": "64"
+              "range": "4G",
+              "width": "32"
             }
           }
         }
       },
-      "ddr3_controller": {
-        "vlnv": "xilinx.com:ip:mig_7series:4.2",
-        "ip_revision": "1",
-        "xci_name": "longteng_top_mig_7series_0_1",
-        "xci_path": "ip/longteng_top_mig_7series_0_1/longteng_top_mig_7series_0_1.xci",
-        "inst_hier_path": "ddr3_controller",
-        "parameters": {
-          "BOARD_MIG_PARAM": {
-            "value": "Custom"
-          },
-          "MIG_DONT_TOUCH_PARAM": {
-            "value": "Custom"
-          },
-          "RESET_BOARD_INTERFACE": {
-            "value": "Custom"
-          },
-          "XML_INPUT_FILE": {
-            "value": "mig_b.prj"
-          }
-        }
-      },
-      "util_ds_buf_0": {
+      "pcie_clock_generator": {
         "vlnv": "xilinx.com:ip:util_ds_buf:2.2",
         "ip_revision": "31",
-        "xci_name": "longteng_top_util_ds_buf_0_1",
-        "xci_path": "ip/longteng_top_util_ds_buf_0_1/longteng_top_util_ds_buf_0_1.xci",
-        "inst_hier_path": "util_ds_buf_0",
+        "xci_name": "longteng_top_util_ds_buf_0_2",
+        "xci_path": "ip/longteng_top_util_ds_buf_0_2/longteng_top_util_ds_buf_0_2.xci",
+        "inst_hier_path": "pcie_clock_generator",
         "parameters": {
           "C_BUF_TYPE": {
             "value": "IBUFDSGTE"
           }
         }
       },
-      "clk_wiz_0": {
-        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
-        "ip_revision": "13",
-        "xci_name": "longteng_top_clk_wiz_0_1",
-        "xci_path": "ip/longteng_top_clk_wiz_0_1/longteng_top_clk_wiz_0_1.xci",
-        "inst_hier_path": "clk_wiz_0",
-        "parameters": {
-          "CLKOUT1_DRIVES": {
-            "value": "BUFG"
-          },
-          "CLKOUT1_JITTER": {
-            "value": "127.775"
-          },
-          "CLKOUT1_PHASE_ERROR": {
-            "value": "144.334"
-          },
-          "CLKOUT1_REQUESTED_OUT_FREQ": {
-            "value": "800.000"
-          },
-          "CLKOUT1_USED": {
-            "value": "true"
-          },
-          "CLKOUT2_DRIVES": {
-            "value": "BUFG"
-          },
-          "CLKOUT2_JITTER": {
-            "value": "161.087"
-          },
-          "CLKOUT2_PHASE_ERROR": {
-            "value": "144.334"
-          },
-          "CLKOUT2_REQUESTED_OUT_FREQ": {
-            "value": "200.000"
-          },
-          "CLKOUT2_USED": {
-            "value": "true"
-          },
-          "CLKOUT3_DRIVES": {
-            "value": "BUFG"
-          },
-          "CLKOUT4_DRIVES": {
-            "value": "BUFG"
-          },
-          "CLKOUT5_DRIVES": {
-            "value": "BUFG"
-          },
-          "CLKOUT6_DRIVES": {
-            "value": "BUFG"
-          },
-          "CLKOUT7_DRIVES": {
-            "value": "BUFG"
-          },
-          "FEEDBACK_SOURCE": {
-            "value": "FDBK_AUTO"
-          },
-          "MMCM_BANDWIDTH": {
-            "value": "OPTIMIZED"
-          },
-          "MMCM_CLKFBOUT_MULT_F": {
-            "value": "16.000"
-          },
-          "MMCM_CLKOUT0_DIVIDE_F": {
-            "value": "1.000"
-          },
-          "MMCM_CLKOUT1_DIVIDE": {
-            "value": "4"
-          },
-          "MMCM_COMPENSATION": {
-            "value": "ZHOLD"
-          },
-          "NUM_OUT_CLKS": {
-            "value": "2"
-          },
-          "PRIMITIVE": {
-            "value": "MMCM"
-          },
-          "USE_LOCKED": {
-            "value": "false"
-          },
-          "USE_RESET": {
-            "value": "false"
-          }
-        }
-      },
-      "axi_smc": {
+      "axi_controller": {
         "vlnv": "xilinx.com:ip:smartconnect:1.0",
         "ip_revision": "21",
-        "xci_name": "longteng_top_axi_smc_1",
-        "xci_path": "ip/longteng_top_axi_smc_1/longteng_top_axi_smc_1.xci",
-        "inst_hier_path": "axi_smc",
+        "xci_name": "longteng_top_smartconnect_0_0",
+        "xci_path": "ip/longteng_top_smartconnect_0_0/longteng_top_smartconnect_0_0.xci",
+        "inst_hier_path": "axi_controller",
         "parameters": {
           "NUM_CLKS": {
             "value": "2"
@@ -498,10 +430,10 @@
             "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
             "parameters": {
               "NUM_READ_OUTSTANDING": {
-                "value": "32"
+                "value": "4"
               },
               "NUM_WRITE_OUTSTANDING": {
-                "value": "16"
+                "value": "4"
               }
             },
             "bridges": [
@@ -517,13 +449,13 @@
                 "value": "256"
               },
               "NUM_READ_OUTSTANDING": {
-                "value": "32"
+                "value": "4"
               },
               "NUM_READ_THREADS": {
                 "value": "1"
               },
               "NUM_WRITE_OUTSTANDING": {
-                "value": "16"
+                "value": "4"
               },
               "NUM_WRITE_THREADS": {
                 "value": "1"
@@ -541,125 +473,227 @@
           }
         }
       },
-      "rst_ddr3_controller_200M": {
+      "memory_controller": {
+        "vlnv": "xilinx.com:ip:mig_7series:4.2",
+        "ip_revision": "1",
+        "xci_name": "longteng_top_mig_7series_0_0",
+        "xci_path": "ip/longteng_top_mig_7series_0_0_1/longteng_top_mig_7series_0_0.xci",
+        "inst_hier_path": "memory_controller",
+        "parameters": {
+          "BOARD_MIG_PARAM": {
+            "value": "Custom"
+          },
+          "MIG_DONT_TOUCH_PARAM": {
+            "value": "Custom"
+          },
+          "RESET_BOARD_INTERFACE": {
+            "value": "Custom"
+          },
+          "XML_INPUT_FILE": {
+            "value": "mig_a.prj"
+          }
+        }
+      },
+      "memory_clock_generator": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "ip_revision": "13",
+        "xci_name": "longteng_top_clk_wiz_0_0",
+        "xci_path": "ip/longteng_top_clk_wiz_0_0/longteng_top_clk_wiz_0_0.xci",
+        "inst_hier_path": "memory_clock_generator",
+        "parameters": {
+          "CLKIN1_JITTER_PS": {
+            "value": "200.0"
+          },
+          "CLKOUT1_JITTER": {
+            "value": "126.902"
+          },
+          "CLKOUT1_PHASE_ERROR": {
+            "value": "164.985"
+          },
+          "CLKOUT1_REQUESTED_OUT_FREQ": {
+            "value": "400.000"
+          },
+          "CLKOUT2_JITTER": {
+            "value": "142.107"
+          },
+          "CLKOUT2_PHASE_ERROR": {
+            "value": "164.985"
+          },
+          "CLKOUT2_REQUESTED_OUT_FREQ": {
+            "value": "200.000"
+          },
+          "CLKOUT2_USED": {
+            "value": "true"
+          },
+          "CLK_OUT1_PORT": {
+            "value": "clk_400m"
+          },
+          "CLK_OUT2_PORT": {
+            "value": "clk_200m"
+          },
+          "MMCM_CLKFBOUT_MULT_F": {
+            "value": "20.000"
+          },
+          "MMCM_CLKIN1_PERIOD": {
+            "value": "20.000"
+          },
+          "MMCM_CLKIN2_PERIOD": {
+            "value": "10.0"
+          },
+          "MMCM_CLKOUT0_DIVIDE_F": {
+            "value": "2.500"
+          },
+          "MMCM_CLKOUT1_DIVIDE": {
+            "value": "5"
+          },
+          "NUM_OUT_CLKS": {
+            "value": "2"
+          },
+          "PRIM_IN_FREQ": {
+            "value": "50.000"
+          },
+          "USE_LOCKED": {
+            "value": "false"
+          },
+          "USE_RESET": {
+            "value": "false"
+          }
+        }
+      },
+      "memory_reset_controller": {
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
         "ip_revision": "14",
-        "xci_name": "longteng_top_rst_ddr3_controller_200M_0",
-        "xci_path": "ip/longteng_top_rst_ddr3_controller_200M_0/longteng_top_rst_ddr3_controller_200M_0.xci",
-        "inst_hier_path": "rst_ddr3_controller_200M"
+        "xci_name": "longteng_top_proc_sys_reset_0_1",
+        "xci_path": "ip/longteng_top_proc_sys_reset_0_1/longteng_top_proc_sys_reset_0_1.xci",
+        "inst_hier_path": "memory_reset_controller"
+      },
+      "pcie_reset_controller": {
+        "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
+        "ip_revision": "14",
+        "xci_name": "longteng_top_proc_sys_reset_1_0",
+        "xci_path": "ip/longteng_top_proc_sys_reset_1_0/longteng_top_proc_sys_reset_1_0.xci",
+        "inst_hier_path": "pcie_reset_controller"
       }
     },
     "interface_nets": {
       "CLK_IN_D_0_1": {
         "interface_ports": [
-          "pcie_ref_clk",
-          "util_ds_buf_0/CLK_IN_D"
+          "clk_pcie_ref",
+          "pcie_clock_generator/CLK_IN_D"
         ]
       },
-      "axi_smc_M00_AXI": {
-        "interface_ports": [
-          "axi_smc/M00_AXI",
-          "ddr3_controller/S_AXI"
-        ]
-      },
-      "ddr3_controller_DDR3": {
+      "mig_7series_0_DDR3": {
         "interface_ports": [
           "DDR3_0",
-          "ddr3_controller/DDR3"
+          "memory_controller/DDR3"
         ]
       },
       "pcie_controller_M_AXI": {
         "interface_ports": [
-          "pcie_controller/M_AXI",
-          "axi_smc/S00_AXI"
+          "axi_controller/S00_AXI",
+          "pcie_controller/M_AXI"
         ]
       },
-      "pcie_controller_pcie_mgt": {
+      "pcie_controller_pcie_7x_mgt": {
         "interface_ports": [
-          "pcie_7x_mgt_rtl_0",
-          "pcie_controller/pcie_mgt"
+          "pcie_connector",
+          "pcie_controller/pcie_7x_mgt"
+        ]
+      },
+      "smartconnect_0_M00_AXI": {
+        "interface_ports": [
+          "axi_controller/M00_AXI",
+          "memory_controller/S_AXI"
         ]
       }
     },
     "nets": {
       "clk_in1_0_1": {
         "ports": [
-          "clk_50M",
-          "clk_wiz_0/clk_in1"
+          "clk_50m",
+          "memory_clock_generator/clk_in1"
         ]
       },
-      "clk_wiz_0_clk_out1": {
+      "clk_wiz_0_clk_200m": {
         "ports": [
-          "clk_wiz_0/clk_out1",
-          "ddr3_controller/sys_clk_i"
+          "memory_clock_generator/clk_200m",
+          "memory_controller/clk_ref_i"
         ]
       },
-      "clk_wiz_0_clk_out2": {
+      "clk_wiz_0_clk_400m": {
         "ports": [
-          "clk_wiz_0/clk_out2",
-          "ddr3_controller/clk_ref_i"
+          "memory_clock_generator/clk_400m",
+          "memory_controller/sys_clk_i"
         ]
       },
-      "ddr3_controller_init_calib_complete": {
+      "ext_reset_in_0_1": {
         "ports": [
-          "ddr3_controller/init_calib_complete",
-          "init_calib_complete_0"
+          "pcie_reset",
+          "memory_reset_controller/ext_reset_in",
+          "pcie_reset_controller/ext_reset_in",
+          "memory_controller/sys_rst"
         ]
       },
-      "ddr3_controller_mmcm_locked": {
+      "mig_7series_0_init_calib_complete": {
         "ports": [
-          "ddr3_controller/mmcm_locked",
-          "rst_ddr3_controller_200M/dcm_locked"
+          "memory_controller/init_calib_complete",
+          "ddr3_ready"
         ]
       },
-      "ddr3_controller_ui_clk": {
+      "mig_7series_0_mmcm_locked": {
         "ports": [
-          "ddr3_controller/ui_clk",
-          "axi_smc/aclk1",
-          "rst_ddr3_controller_200M/slowest_sync_clk"
+          "memory_controller/mmcm_locked",
+          "memory_reset_controller/dcm_locked"
         ]
       },
-      "ddr3_controller_ui_clk_sync_rst": {
+      "mig_7series_0_ui_clk": {
         "ports": [
-          "ddr3_controller/ui_clk_sync_rst",
-          "rst_ddr3_controller_200M/ext_reset_in"
+          "memory_controller/ui_clk",
+          "axi_controller/aclk1",
+          "memory_reset_controller/slowest_sync_clk"
         ]
       },
-      "pcie_controller_axi_aclk": {
+      "pcie_controller_axi_aclk_out": {
         "ports": [
-          "pcie_controller/axi_aclk",
-          "axi_smc/aclk"
+          "pcie_controller/axi_aclk_out",
+          "axi_controller/aclk",
+          "pcie_reset_controller/slowest_sync_clk"
         ]
       },
-      "pcie_controller_axi_aresetn": {
+      "pcie_controller_mmcm_lock": {
         "ports": [
-          "pcie_controller/axi_aresetn",
-          "ddr3_controller/sys_rst",
-          "axi_smc/aresetn"
+          "pcie_controller/mmcm_lock",
+          "pcie_reset_controller/dcm_locked"
         ]
       },
-      "pcie_controller_user_lnk_up": {
+      "pcie_controller_user_link_up": {
         "ports": [
-          "pcie_controller/user_lnk_up",
-          "user_lnk_up_0"
+          "pcie_controller/user_link_up",
+          "pcie_ready"
         ]
       },
-      "reset_rtl_0_1": {
+      "proc_sys_reset_0_peripheral_aresetn": {
         "ports": [
-          "reset_rtl_0",
-          "pcie_controller/sys_rst_n"
+          "memory_reset_controller/peripheral_aresetn",
+          "memory_controller/aresetn"
         ]
       },
-      "rst_ddr3_controller_200M_peripheral_aresetn": {
+      "proc_sys_reset_1_interconnect_aresetn": {
         "ports": [
-          "rst_ddr3_controller_200M/peripheral_aresetn",
-          "ddr3_controller/aresetn"
+          "pcie_reset_controller/interconnect_aresetn",
+          "axi_controller/aresetn"
+        ]
+      },
+      "proc_sys_reset_1_peripheral_aresetn": {
+        "ports": [
+          "pcie_reset_controller/peripheral_aresetn",
+          "pcie_controller/axi_aresetn"
         ]
       },
       "util_ds_buf_0_IBUF_OUT": {
         "ports": [
-          "util_ds_buf_0/IBUF_OUT",
-          "pcie_controller/sys_clk"
+          "pcie_clock_generator/IBUF_OUT",
+          "pcie_controller/REFCLK"
         ]
       }
     },
@@ -668,9 +702,9 @@
         "address_spaces": {
           "M_AXI": {
             "segments": {
-              "SEG_ddr3_controller_memaddr": {
-                "address_block": "/ddr3_controller/memmap/memaddr",
-                "offset": "0x0000000080000000",
+              "SEG_mig_7series_0_memaddr": {
+                "address_block": "/memory_controller/memmap/memaddr",
+                "offset": "0x00000000",
                 "range": "1G"
               }
             }

@@ -1,46 +1,49 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"1.30464",
-   "Default View_TopLeft":"235,373",
+   "Default View_ScaleFactor":"0.924551",
+   "Default View_TopLeft":"-125,-4",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.5.8 2022-09-21 7111 VDI=41 GEI=38 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port pcie_ref_clk -pg 1 -lvl 0 -x -10 -y 490 -defaultsOSRD
-preplace port pcie_7x_mgt_rtl_0 -pg 1 -lvl 5 -x 1350 -y 450 -defaultsOSRD
-preplace port DDR3_0 -pg 1 -lvl 5 -x 1350 -y 300 -defaultsOSRD
-preplace port port-id_clk_50M -pg 1 -lvl 0 -x -10 -y 630 -defaultsOSRD
-preplace port port-id_reset_rtl_0 -pg 1 -lvl 0 -x -10 -y 550 -defaultsOSRD
-preplace port port-id_init_calib_complete_0 -pg 1 -lvl 5 -x 1350 -y 380 -defaultsOSRD
-preplace port port-id_user_lnk_up_0 -pg 1 -lvl 5 -x 1350 -y 480 -defaultsOSRD
-preplace inst pcie_controller -pg 1 -lvl 2 -x 460 -y 500 -defaultsOSRD
-preplace inst ddr3_controller -pg 1 -lvl 4 -x 1180 -y 340 -defaultsOSRD
-preplace inst util_ds_buf_0 -pg 1 -lvl 1 -x 150 -y 490 -defaultsOSRD
-preplace inst clk_wiz_0 -pg 1 -lvl 3 -x 840 -y 630 -defaultsOSRD
-preplace inst axi_smc -pg 1 -lvl 3 -x 840 -y 300 -defaultsOSRD
-preplace inst rst_ddr3_controller_200M -pg 1 -lvl 3 -x 840 -y 110 -defaultsOSRD
-preplace netloc clk_in1_0_1 1 0 3 NJ 630 NJ 630 NJ
-preplace netloc clk_wiz_0_clk_out1 1 3 1 1050 360n
-preplace netloc clk_wiz_0_clk_out2 1 3 1 1040 340n
-preplace netloc ddr3_controller_init_calib_complete 1 4 1 NJ 380
-preplace netloc ddr3_controller_mmcm_locked 1 2 3 660 440 NJ 440 1310
-preplace netloc ddr3_controller_ui_clk 1 2 3 650 210 NJ 210 1320
-preplace netloc ddr3_controller_ui_clk_sync_rst 1 2 3 660 10 NJ 10 1310
-preplace netloc pcie_controller_axi_aclk 1 2 1 630 290n
-preplace netloc pcie_controller_axi_aresetn 1 2 2 640 390 1020J
-preplace netloc pcie_controller_user_lnk_up 1 2 3 620J 480 NJ 480 NJ
-preplace netloc reset_rtl_0_1 1 0 2 10J 420 300J
-preplace netloc rst_ddr3_controller_200M_peripheral_aresetn 1 3 1 1030 150n
-preplace netloc util_ds_buf_0_IBUF_OUT 1 1 1 290J 480n
-preplace netloc CLK_IN_D_0_1 1 0 1 NJ 490
-preplace netloc axi_smc_M00_AXI 1 3 1 N 300
-preplace netloc ddr3_controller_DDR3 1 4 1 NJ 300
-preplace netloc pcie_controller_M_AXI 1 2 1 620 270n
-preplace netloc pcie_controller_pcie_mgt 1 2 3 NJ 450 NJ 450 NJ
-levelinfo -pg 1 -10 150 460 840 1180 1350
-pagesize -pg 1 -db -bbox -sgen -150 0 1550 700
+preplace port clk_pcie_ref -pg 1 -lvl 0 -x 0 -y 210 -defaultsOSRD
+preplace port pcie_connector -pg 1 -lvl 5 -x 1460 -y 80 -defaultsOSRD
+preplace port DDR3_0 -pg 1 -lvl 5 -x 1460 -y 400 -defaultsOSRD
+preplace port port-id_pcie_reset -pg 1 -lvl 0 -x 0 -y 390 -defaultsOSRD
+preplace port port-id_pcie_ready -pg 1 -lvl 5 -x 1460 -y 110 -defaultsOSRD
+preplace port port-id_ddr3_ready -pg 1 -lvl 5 -x 1460 -y 480 -defaultsOSRD
+preplace port port-id_clk_50m -pg 1 -lvl 0 -x 0 -y 770 -defaultsOSRD
+preplace inst pcie_controller -pg 1 -lvl 2 -x 580 -y 150 -defaultsOSRD
+preplace inst pcie_clock_generator -pg 1 -lvl 1 -x 220 -y 210 -defaultsOSRD
+preplace inst pcie_reset_controller -pg 1 -lvl 1 -x 220 -y 410 -defaultsOSRD
+preplace inst axi_controller -pg 1 -lvl 3 -x 960 -y 400 -defaultsOSRD
+preplace inst memory_reset_controller -pg 1 -lvl 3 -x 960 -y 590 -defaultsOSRD
+preplace inst memory_controller -pg 1 -lvl 4 -x 1300 -y 440 -defaultsOSRD
+preplace inst memory_clock_generator -pg 1 -lvl 3 -x 960 -y 770 -defaultsOSRD
+preplace netloc clk_in1_0_1 1 0 3 NJ 770 NJ 770 NJ
+preplace netloc clk_wiz_0_clk_200m 1 3 1 1150 440n
+preplace netloc clk_wiz_0_clk_400m 1 3 1 1160 460n
+preplace netloc ext_reset_in_0_1 1 0 4 20 510 NJ 510 760 490 1140
+preplace netloc mig_7series_0_init_calib_complete 1 4 1 NJ 480
+preplace netloc mig_7series_0_mmcm_locked 1 2 3 770 700 NJ 700 1430
+preplace netloc mig_7series_0_ui_clk 1 2 3 780 690 NJ 690 1440
+preplace netloc pcie_controller_axi_aclk_out 1 0 3 40 310 NJ 310 770
+preplace netloc pcie_controller_mmcm_lock 1 0 3 30 300 NJ 300 760
+preplace netloc pcie_controller_user_link_up 1 2 3 NJ 100 NJ 100 1440J
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 3 1 1170 480n
+preplace netloc proc_sys_reset_1_interconnect_aresetn 1 1 2 N 430 NJ
+preplace netloc proc_sys_reset_1_peripheral_aresetn 1 1 1 400 140n
+preplace netloc util_ds_buf_0_IBUF_OUT 1 1 1 NJ 200
+preplace netloc CLK_IN_D_0_1 1 0 1 NJ 210
+preplace netloc mig_7series_0_DDR3 1 4 1 NJ 400
+preplace netloc pcie_controller_M_AXI 1 2 1 780 60n
+preplace netloc pcie_controller_pcie_7x_mgt 1 2 3 NJ 80 NJ 80 NJ
+preplace netloc smartconnect_0_M00_AXI 1 3 1 N 400
+levelinfo -pg 1 0 220 580 960 1300 1460
+pagesize -pg 1 -db -bbox -sgen -130 0 1620 840
 "
 }
 {
-   "da_axi4_cnt":"2",
-   "da_board_cnt":"6"
+   "da_axi4_cnt":"9",
+   "da_board_cnt":"15",
+   "da_clkrst_cnt":"4"
 }
