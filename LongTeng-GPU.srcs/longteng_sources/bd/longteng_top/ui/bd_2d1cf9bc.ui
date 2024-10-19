@@ -1,49 +1,63 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.924551",
-   "Default View_TopLeft":"-125,-4",
+   "Default View_ScaleFactor":"0.801802",
+   "Default View_TopLeft":"-126,-79",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.5.8 2022-09-21 7111 VDI=41 GEI=38 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port clk_pcie_ref -pg 1 -lvl 0 -x 0 -y 210 -defaultsOSRD
-preplace port pcie_connector -pg 1 -lvl 5 -x 1460 -y 80 -defaultsOSRD
-preplace port DDR3_0 -pg 1 -lvl 5 -x 1460 -y 400 -defaultsOSRD
-preplace port port-id_pcie_reset -pg 1 -lvl 0 -x 0 -y 390 -defaultsOSRD
-preplace port port-id_pcie_ready -pg 1 -lvl 5 -x 1460 -y 110 -defaultsOSRD
-preplace port port-id_ddr3_ready -pg 1 -lvl 5 -x 1460 -y 480 -defaultsOSRD
-preplace port port-id_clk_50m -pg 1 -lvl 0 -x 0 -y 770 -defaultsOSRD
-preplace inst pcie_controller -pg 1 -lvl 2 -x 580 -y 150 -defaultsOSRD
-preplace inst pcie_clock_generator -pg 1 -lvl 1 -x 220 -y 210 -defaultsOSRD
-preplace inst pcie_reset_controller -pg 1 -lvl 1 -x 220 -y 410 -defaultsOSRD
-preplace inst axi_controller -pg 1 -lvl 3 -x 960 -y 400 -defaultsOSRD
-preplace inst memory_reset_controller -pg 1 -lvl 3 -x 960 -y 590 -defaultsOSRD
-preplace inst memory_controller -pg 1 -lvl 4 -x 1300 -y 440 -defaultsOSRD
-preplace inst memory_clock_generator -pg 1 -lvl 3 -x 960 -y 770 -defaultsOSRD
-preplace netloc clk_in1_0_1 1 0 3 NJ 770 NJ 770 NJ
-preplace netloc clk_wiz_0_clk_200m 1 3 1 1150 440n
-preplace netloc clk_wiz_0_clk_400m 1 3 1 1160 460n
-preplace netloc ext_reset_in_0_1 1 0 4 20 510 NJ 510 760 490 1140
-preplace netloc mig_7series_0_init_calib_complete 1 4 1 NJ 480
-preplace netloc mig_7series_0_mmcm_locked 1 2 3 770 700 NJ 700 1430
-preplace netloc mig_7series_0_ui_clk 1 2 3 780 690 NJ 690 1440
-preplace netloc pcie_controller_axi_aclk_out 1 0 3 40 310 NJ 310 770
-preplace netloc pcie_controller_mmcm_lock 1 0 3 30 300 NJ 300 760
-preplace netloc pcie_controller_user_link_up 1 2 3 NJ 100 NJ 100 1440J
-preplace netloc proc_sys_reset_0_peripheral_aresetn 1 3 1 1170 480n
-preplace netloc proc_sys_reset_1_interconnect_aresetn 1 1 2 N 430 NJ
-preplace netloc proc_sys_reset_1_peripheral_aresetn 1 1 1 400 140n
-preplace netloc util_ds_buf_0_IBUF_OUT 1 1 1 NJ 200
-preplace netloc CLK_IN_D_0_1 1 0 1 NJ 210
-preplace netloc mig_7series_0_DDR3 1 4 1 NJ 400
-preplace netloc pcie_controller_M_AXI 1 2 1 780 60n
-preplace netloc pcie_controller_pcie_7x_mgt 1 2 3 NJ 80 NJ 80 NJ
-preplace netloc smartconnect_0_M00_AXI 1 3 1 N 400
-levelinfo -pg 1 0 220 580 960 1300 1460
-pagesize -pg 1 -db -bbox -sgen -130 0 1620 840
+preplace port clk_pcie_ref -pg 1 -lvl 0 -x 0 -y 990 -defaultsOSRD
+preplace port pcie_connector -pg 1 -lvl 6 -x 1830 -y 860 -defaultsOSRD
+preplace port DDR3_0 -pg 1 -lvl 6 -x 1830 -y 520 -defaultsOSRD
+preplace port port-id_pcie_reset -pg 1 -lvl 0 -x 0 -y 720 -defaultsOSRD
+preplace port port-id_pcie_ready -pg 1 -lvl 6 -x 1830 -y 890 -defaultsOSRD
+preplace port port-id_ddr3_ready -pg 1 -lvl 6 -x 1830 -y 600 -defaultsOSRD
+preplace port port-id_clk_50m -pg 1 -lvl 0 -x 0 -y 640 -defaultsOSRD
+preplace inst pcie_controller -pg 1 -lvl 3 -x 880 -y 930 -defaultsOSRD
+preplace inst pcie_clock_generator -pg 1 -lvl 2 -x 450 -y 990 -defaultsOSRD
+preplace inst axi_controller -pg 1 -lvl 4 -x 1330 -y 520 -defaultsOSRD
+preplace inst memory_controller -pg 1 -lvl 5 -x 1670 -y 560 -defaultsOSRD
+preplace inst memory_clock_generator -pg 1 -lvl 1 -x 130 -y 640 -defaultsOSRD
+preplace inst memory_reset_controller -pg 1 -lvl 4 -x 1330 -y 740 -defaultsOSRD
+preplace inst pcie_reset_controller -pg 1 -lvl 2 -x 450 -y 530 -defaultsOSRD
+preplace inst microblaze_0 -pg 1 -lvl 3 -x 880 -y 320 -defaultsOSRD
+preplace inst microblaze_0_local_memory -pg 1 -lvl 4 -x 1330 -y 330 -defaultsOSRD
+preplace inst mdm_1 -pg 1 -lvl 2 -x 450 -y 70 -defaultsOSRD
+preplace inst rst_memory_clock_generator_100M -pg 1 -lvl 2 -x 450 -y 250 -defaultsOSRD
+preplace netloc clk_in1_0_1 1 0 1 NJ 640
+preplace netloc clk_wiz_0_clk_200m 1 1 4 NJ 640 NJ 640 NJ 640 1510
+preplace netloc clk_wiz_0_clk_400m 1 1 4 250J 630 NJ 630 NJ 630 1520
+preplace netloc ext_reset_in_0_1 1 0 5 NJ 720 260 720 NJ 720 1120 850 1530
+preplace netloc mig_7series_0_init_calib_complete 1 5 1 NJ 600
+preplace netloc mig_7series_0_mmcm_locked 1 3 3 1150 840 NJ 840 1800
+preplace netloc mig_7series_0_ui_clk 1 3 3 1150 410 NJ 410 1810
+preplace netloc pcie_controller_axi_aclk_out 1 1 3 270 430 NJ 430 1110
+preplace netloc pcie_controller_mmcm_lock 1 1 3 270 1080 NJ 1080 1110
+preplace netloc pcie_controller_user_link_up 1 3 3 NJ 880 NJ 880 1810J
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 4 1 1540 600n
+preplace netloc proc_sys_reset_1_interconnect_aresetn 1 2 2 NJ 550 N
+preplace netloc proc_sys_reset_1_peripheral_aresetn 1 2 1 650 570n
+preplace netloc util_ds_buf_0_IBUF_OUT 1 2 1 NJ 980
+preplace netloc memory_clock_generator_clk_100m 1 1 3 240 350 630 410 1140
+preplace netloc rst_memory_clock_generator_100M_bus_struct_reset 1 2 2 NJ 230 1130
+preplace netloc mdm_1_debug_sys_rst 1 1 2 260 140 630
+preplace netloc memory_controller_ui_clk_sync_rst 1 1 5 270 150 NJ 150 NJ 150 NJ 150 1800
+preplace netloc rst_memory_clock_generator_100M_mb_reset 1 2 1 640 210n
+preplace netloc CLK_IN_D_0_1 1 0 2 NJ 990 NJ
+preplace netloc mig_7series_0_DDR3 1 5 1 NJ 520
+preplace netloc pcie_controller_M_AXI 1 3 1 1130 470n
+preplace netloc pcie_controller_pcie_7x_mgt 1 3 3 NJ 860 NJ 860 NJ
+preplace netloc smartconnect_0_M00_AXI 1 4 1 N 520
+preplace netloc microblaze_0_dlmb_1 1 3 1 N 300
+preplace netloc microblaze_0_ilmb_1 1 3 1 N 320
+preplace netloc microblaze_0_debug 1 2 1 650 60n
+preplace netloc microblaze_0_M_AXI_DP 1 3 1 1120 340n
+levelinfo -pg 1 0 130 450 880 1330 1670 1830
+pagesize -pg 1 -db -bbox -sgen -130 0 1990 1090
 "
 }
 {
-   "da_axi4_cnt":"9",
-   "da_board_cnt":"15",
-   "da_clkrst_cnt":"4"
+   "da_axi4_cnt":"12",
+   "da_board_cnt":"16",
+   "da_clkrst_cnt":"5",
+   "da_mb_cnt":"1"
 }
