@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x427A1F3161D1A032",
+      "boundary_crc": "0xE50F3ADCDB69566E",
       "device": "xc7k325tffg676-2",
       "gen_directory": "../../../../LongTeng-GPU.gen/longteng_sources/bd/longteng_top",
       "name": "longteng_top",
@@ -27,7 +27,20 @@
         "lmb_bram": ""
       },
       "mdm_1": "",
-      "rst_memory_clock_generator_100M": ""
+      "rst_memory_clock_generator_100M": "",
+      "frame_buffer_DMA": "",
+      "rst_memory_clock_generator_400M": "",
+      "gpio_controller": "",
+      "video_stream_to_video": "",
+      "hdmi_phy": "",
+      "hdmi_ddc_controller": "",
+      "microblaze_interrupt_controller": "",
+      "video_timing_controller": "",
+      "reset_slice": "",
+      "interrupt_slice": "",
+      "hdmi_clock": "",
+      "axi_i2c_reset": "",
+      "hdmi_enable_slice": ""
     },
     "interface_ports": {
       "clk_pcie_ref": {
@@ -228,6 +241,37 @@
             "right": "0"
           }
         }
+      },
+      "HDMI_DDC": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:iic:1.0",
+        "vlnv": "xilinx.com:interface:iic_rtl:1.0",
+        "port_maps": {
+          "SCL_I": {
+            "physical_name": "HDMI_DDC_scl_i",
+            "direction": "I"
+          },
+          "SCL_O": {
+            "physical_name": "HDMI_DDC_scl_o",
+            "direction": "O"
+          },
+          "SCL_T": {
+            "physical_name": "HDMI_DDC_scl_t",
+            "direction": "O"
+          },
+          "SDA_I": {
+            "physical_name": "HDMI_DDC_sda_i",
+            "direction": "I"
+          },
+          "SDA_O": {
+            "physical_name": "HDMI_DDC_sda_o",
+            "direction": "O"
+          },
+          "SDA_T": {
+            "physical_name": "HDMI_DDC_sda_t",
+            "direction": "O"
+          }
+        }
       }
     },
     "ports": {
@@ -274,6 +318,65 @@
             "value_src": "default"
           }
         }
+      },
+      "HDMI_TMDS_clk_p": {
+        "type": "clk",
+        "direction": "O",
+        "parameters": {
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
+      },
+      "HDMI_TMDS_clk_n": {
+        "type": "clk",
+        "direction": "O",
+        "parameters": {
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.0",
+            "value_src": "default"
+          }
+        }
+      },
+      "HDMI_TMDS_data_p": {
+        "direction": "O",
+        "left": "2",
+        "right": "0"
+      },
+      "HDMI_TMDS_data_n": {
+        "direction": "O",
+        "left": "2",
+        "right": "0"
+      },
+      "hdmi_enable": {
+        "direction": "O",
+        "left": "0",
+        "right": "0"
       }
     },
     "components": {
@@ -427,10 +530,13 @@
         "inst_hier_path": "axi_controller",
         "parameters": {
           "NUM_CLKS": {
-            "value": "3"
+            "value": "5"
+          },
+          "NUM_MI": {
+            "value": "6"
           },
           "NUM_SI": {
-            "value": "2"
+            "value": "3"
           }
         },
         "interface_ports": {
@@ -447,7 +553,12 @@
               }
             },
             "bridges": [
-              "M00_AXI"
+              "M00_AXI",
+              "M01_AXI",
+              "M02_AXI",
+              "M03_AXI",
+              "M04_AXI",
+              "M05_AXI"
             ]
           },
           "S01_AXI": {
@@ -463,7 +574,33 @@
               }
             },
             "bridges": [
-              "M00_AXI"
+              "M00_AXI",
+              "M01_AXI",
+              "M02_AXI",
+              "M03_AXI",
+              "M04_AXI",
+              "M05_AXI"
+            ]
+          },
+          "S02_AXI": {
+            "mode": "Slave",
+            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "parameters": {
+              "NUM_READ_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_WRITE_OUTSTANDING": {
+                "value": "2"
+              }
+            },
+            "bridges": [
+              "M00_AXI",
+              "M01_AXI",
+              "M02_AXI",
+              "M03_AXI",
+              "M04_AXI",
+              "M05_AXI"
             ]
           },
           "M00_AXI": {
@@ -473,6 +610,161 @@
             "parameters": {
               "MAX_BURST_LENGTH": {
                 "value": "256"
+              },
+              "NUM_READ_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_READ_THREADS": {
+                "value": "1"
+              },
+              "NUM_WRITE_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_WRITE_THREADS": {
+                "value": "1"
+              },
+              "RUSER_BITS_PER_BYTE": {
+                "value": "0"
+              },
+              "SUPPORTS_NARROW_BURST": {
+                "value": "0"
+              },
+              "WUSER_BITS_PER_BYTE": {
+                "value": "0"
+              }
+            }
+          },
+          "M01_AXI": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "parameters": {
+              "MAX_BURST_LENGTH": {
+                "value": "1"
+              },
+              "NUM_READ_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_READ_THREADS": {
+                "value": "1"
+              },
+              "NUM_WRITE_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_WRITE_THREADS": {
+                "value": "1"
+              },
+              "RUSER_BITS_PER_BYTE": {
+                "value": "0"
+              },
+              "SUPPORTS_NARROW_BURST": {
+                "value": "0"
+              },
+              "WUSER_BITS_PER_BYTE": {
+                "value": "0"
+              }
+            }
+          },
+          "M02_AXI": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "parameters": {
+              "MAX_BURST_LENGTH": {
+                "value": "1"
+              },
+              "NUM_READ_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_READ_THREADS": {
+                "value": "1"
+              },
+              "NUM_WRITE_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_WRITE_THREADS": {
+                "value": "1"
+              },
+              "RUSER_BITS_PER_BYTE": {
+                "value": "0"
+              },
+              "SUPPORTS_NARROW_BURST": {
+                "value": "0"
+              },
+              "WUSER_BITS_PER_BYTE": {
+                "value": "0"
+              }
+            }
+          },
+          "M03_AXI": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "parameters": {
+              "MAX_BURST_LENGTH": {
+                "value": "1"
+              },
+              "NUM_READ_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_READ_THREADS": {
+                "value": "1"
+              },
+              "NUM_WRITE_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_WRITE_THREADS": {
+                "value": "1"
+              },
+              "RUSER_BITS_PER_BYTE": {
+                "value": "0"
+              },
+              "SUPPORTS_NARROW_BURST": {
+                "value": "0"
+              },
+              "WUSER_BITS_PER_BYTE": {
+                "value": "0"
+              }
+            }
+          },
+          "M04_AXI": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "parameters": {
+              "MAX_BURST_LENGTH": {
+                "value": "1"
+              },
+              "NUM_READ_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_READ_THREADS": {
+                "value": "1"
+              },
+              "NUM_WRITE_OUTSTANDING": {
+                "value": "4"
+              },
+              "NUM_WRITE_THREADS": {
+                "value": "1"
+              },
+              "RUSER_BITS_PER_BYTE": {
+                "value": "0"
+              },
+              "SUPPORTS_NARROW_BURST": {
+                "value": "0"
+              },
+              "WUSER_BITS_PER_BYTE": {
+                "value": "0"
+              }
+            }
+          },
+          "M05_AXI": {
+            "mode": "Master",
+            "vlnv_bus_definition": "xilinx.com:interface:aximm:1.0",
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "parameters": {
+              "MAX_BURST_LENGTH": {
+                "value": "1"
               },
               "NUM_READ_OUTSTANDING": {
                 "value": "4"
@@ -888,6 +1180,323 @@
         "xci_name": "longteng_top_rst_memory_clock_generator_100M_0",
         "xci_path": "ip/longteng_top_rst_memory_clock_generator_100M_0/longteng_top_rst_memory_clock_generator_100M_0.xci",
         "inst_hier_path": "rst_memory_clock_generator_100M"
+      },
+      "frame_buffer_DMA": {
+        "vlnv": "xilinx.com:ip:v_frmbuf_rd:2.5",
+        "ip_revision": "0",
+        "xci_name": "longteng_top_v_frmbuf_rd_0_1",
+        "xci_path": "ip/longteng_top_v_frmbuf_rd_0_1/longteng_top_v_frmbuf_rd_0_1.xci",
+        "inst_hier_path": "frame_buffer_DMA",
+        "parameters": {
+          "HAS_ALPHA": {
+            "value": "1"
+          },
+          "HAS_BGRA8": {
+            "value": "1"
+          },
+          "MAX_COLS": {
+            "value": "1920"
+          },
+          "MAX_ROWS": {
+            "value": "1080"
+          }
+        },
+        "interface_ports": {
+          "m_axi_mm_video": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Master",
+            "address_space_ref": "Data_m_axi_mm_video",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0xFFFFFFFF",
+              "width": "32"
+            },
+            "parameters": {
+              "master_id": {
+                "value": "3"
+              }
+            }
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "Data_m_axi_mm_video": {
+              "range": "4G",
+              "width": "32"
+            }
+          }
+        }
+      },
+      "rst_memory_clock_generator_400M": {
+        "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
+        "ip_revision": "14",
+        "xci_name": "longteng_top_rst_memory_clock_generator_400M_0",
+        "xci_path": "ip/longteng_top_rst_memory_clock_generator_400M_0/longteng_top_rst_memory_clock_generator_400M_0.xci",
+        "inst_hier_path": "rst_memory_clock_generator_400M"
+      },
+      "gpio_controller": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "ip_revision": "31",
+        "xci_name": "longteng_top_axi_gpio_0_0",
+        "xci_path": "ip/longteng_top_axi_gpio_0_0/longteng_top_axi_gpio_0_0.xci",
+        "inst_hier_path": "gpio_controller",
+        "parameters": {
+          "C_ALL_INPUTS": {
+            "value": "0"
+          },
+          "C_ALL_OUTPUTS": {
+            "value": "1"
+          },
+          "C_DOUT_DEFAULT": {
+            "value": "0x00000001"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "2"
+          },
+          "C_IS_DUAL": {
+            "value": "0"
+          }
+        }
+      },
+      "video_stream_to_video": {
+        "vlnv": "xilinx.com:ip:v_axi4s_vid_out:4.0",
+        "ip_revision": "17",
+        "xci_name": "longteng_top_v_axi4s_vid_out_0_1",
+        "xci_path": "ip/longteng_top_v_axi4s_vid_out_0_1/longteng_top_v_axi4s_vid_out_0_1.xci",
+        "inst_hier_path": "video_stream_to_video",
+        "parameters": {
+          "C_PIXELS_PER_CLOCK": {
+            "value": "2"
+          },
+          "C_S_AXIS_VIDEO_FORMAT": {
+            "value": "6"
+          },
+          "C_VTG_MASTER_SLAVE": {
+            "value": "0"
+          }
+        }
+      },
+      "hdmi_phy": {
+        "vlnv": "digilentinc.com:ip:rgb2dvi:1.4",
+        "ip_revision": "8",
+        "xci_name": "longteng_top_rgb2dvi_0_0",
+        "xci_path": "ip/longteng_top_rgb2dvi_0_0/longteng_top_rgb2dvi_0_0.xci",
+        "inst_hier_path": "hdmi_phy",
+        "parameters": {
+          "kGenerateSerialClk": {
+            "value": "false"
+          },
+          "kRstActiveHigh": {
+            "value": "false"
+          }
+        }
+      },
+      "hdmi_ddc_controller": {
+        "vlnv": "xilinx.com:ip:axi_iic:2.1",
+        "ip_revision": "5",
+        "xci_name": "longteng_top_axi_iic_0_1",
+        "xci_path": "ip/longteng_top_axi_iic_0_1/longteng_top_axi_iic_0_1.xci",
+        "inst_hier_path": "hdmi_ddc_controller"
+      },
+      "microblaze_interrupt_controller": {
+        "vlnv": "xilinx.com:ip:axi_intc:4.1",
+        "ip_revision": "18",
+        "xci_name": "longteng_top_axi_intc_0_0",
+        "xci_path": "ip/longteng_top_axi_intc_0_0/longteng_top_axi_intc_0_0.xci",
+        "inst_hier_path": "microblaze_interrupt_controller"
+      },
+      "video_timing_controller": {
+        "vlnv": "xilinx.com:ip:v_tc:6.2",
+        "ip_revision": "7",
+        "xci_name": "longteng_top_v_tc_0_0",
+        "xci_path": "ip/longteng_top_v_tc_0_0/longteng_top_v_tc_0_0.xci",
+        "inst_hier_path": "video_timing_controller",
+        "parameters": {
+          "HAS_INTC_IF": {
+            "value": "false"
+          },
+          "VIDEO_MODE": {
+            "value": "720p"
+          },
+          "enable_detection": {
+            "value": "false"
+          },
+          "enable_generation": {
+            "value": "true"
+          },
+          "max_clocks_per_line": {
+            "value": "2048"
+          },
+          "max_lines_per_frame": {
+            "value": "2048"
+          }
+        }
+      },
+      "reset_slice": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "ip_revision": "3",
+        "xci_name": "longteng_top_xlslice_0_0",
+        "xci_path": "ip/longteng_top_xlslice_0_0/longteng_top_xlslice_0_0.xci",
+        "inst_hier_path": "reset_slice",
+        "parameters": {
+          "DIN_WIDTH": {
+            "value": "2"
+          }
+        }
+      },
+      "interrupt_slice": {
+        "vlnv": "xilinx.com:ip:xlconcat:2.1",
+        "ip_revision": "5",
+        "xci_name": "longteng_top_xlconcat_0_0",
+        "xci_path": "ip/longteng_top_xlconcat_0_0/longteng_top_xlconcat_0_0.xci",
+        "inst_hier_path": "interrupt_slice",
+        "parameters": {
+          "NUM_PORTS": {
+            "value": "4"
+          }
+        }
+      },
+      "hdmi_clock": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "ip_revision": "13",
+        "xci_name": "longteng_top_clk_wiz_0_2",
+        "xci_path": "ip/longteng_top_clk_wiz_0_2/longteng_top_clk_wiz_0_2.xci",
+        "inst_hier_path": "hdmi_clock",
+        "parameters": {
+          "CLKIN1_JITTER_PS": {
+            "value": "200.0"
+          },
+          "CLKOUT1_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT1_JITTER": {
+            "value": "462.435"
+          },
+          "CLKOUT1_PHASE_ERROR": {
+            "value": "610.813"
+          },
+          "CLKOUT1_REQUESTED_OUT_FREQ": {
+            "value": "74.25"
+          },
+          "CLKOUT2_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT2_JITTER": {
+            "value": "372.733"
+          },
+          "CLKOUT2_PHASE_ERROR": {
+            "value": "610.813"
+          },
+          "CLKOUT2_REQUESTED_OUT_FREQ": {
+            "value": "371.25"
+          },
+          "CLKOUT2_USED": {
+            "value": "true"
+          },
+          "CLKOUT3_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT4_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT5_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT6_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLKOUT7_DRIVES": {
+            "value": "BUFG"
+          },
+          "CLK_OUT1_PORT": {
+            "value": "clock_720p"
+          },
+          "CLK_OUT2_PORT": {
+            "value": "clk_ser_720p"
+          },
+          "FEEDBACK_SOURCE": {
+            "value": "FDBK_AUTO"
+          },
+          "JITTER_SEL": {
+            "value": "No_Jitter"
+          },
+          "MMCM_BANDWIDTH": {
+            "value": "OPTIMIZED"
+          },
+          "MMCM_CLKFBOUT_MULT_F": {
+            "value": "59.375"
+          },
+          "MMCM_CLKIN1_PERIOD": {
+            "value": "20.000"
+          },
+          "MMCM_CLKIN2_PERIOD": {
+            "value": "10.0"
+          },
+          "MMCM_CLKOUT0_DIVIDE_F": {
+            "value": "10.000"
+          },
+          "MMCM_CLKOUT0_DUTY_CYCLE": {
+            "value": "0.500"
+          },
+          "MMCM_CLKOUT1_DIVIDE": {
+            "value": "2"
+          },
+          "MMCM_COMPENSATION": {
+            "value": "ZHOLD"
+          },
+          "MMCM_DIVCLK_DIVIDE": {
+            "value": "4"
+          },
+          "NUM_OUT_CLKS": {
+            "value": "2"
+          },
+          "PLL_CLKIN_PERIOD": {
+            "value": "20.000"
+          },
+          "PRIMITIVE": {
+            "value": "MMCM"
+          },
+          "PRIM_IN_FREQ": {
+            "value": "50.000"
+          },
+          "RESET_PORT": {
+            "value": "resetn"
+          },
+          "RESET_TYPE": {
+            "value": "ACTIVE_LOW"
+          },
+          "USE_LOCKED": {
+            "value": "true"
+          },
+          "USE_MIN_POWER": {
+            "value": "false"
+          },
+          "USE_RESET": {
+            "value": "true"
+          }
+        }
+      },
+      "axi_i2c_reset": {
+        "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
+        "ip_revision": "14",
+        "xci_name": "longteng_top_proc_sys_reset_0_2",
+        "xci_path": "ip/longteng_top_proc_sys_reset_0_2/longteng_top_proc_sys_reset_0_2.xci",
+        "inst_hier_path": "axi_i2c_reset"
+      },
+      "hdmi_enable_slice": {
+        "vlnv": "xilinx.com:ip:xlslice:1.0",
+        "ip_revision": "3",
+        "xci_name": "longteng_top_xlslice_0_1",
+        "xci_path": "ip/longteng_top_xlslice_0_1/longteng_top_xlslice_0_1.xci",
+        "inst_hier_path": "hdmi_enable_slice",
+        "parameters": {
+          "DIN_TO": {
+            "value": "1"
+          },
+          "DIN_WIDTH": {
+            "value": "2"
+          }
+        }
       }
     },
     "interface_nets": {
@@ -895,6 +1504,60 @@
         "interface_ports": [
           "clk_pcie_ref",
           "pcie_clock_generator/CLK_IN_D"
+        ]
+      },
+      "axi_controller_M01_AXI": {
+        "interface_ports": [
+          "axi_controller/M01_AXI",
+          "frame_buffer_DMA/s_axi_CTRL"
+        ]
+      },
+      "axi_controller_M02_AXI": {
+        "interface_ports": [
+          "axi_controller/M02_AXI",
+          "hdmi_ddc_controller/S_AXI"
+        ]
+      },
+      "axi_controller_M03_AXI": {
+        "interface_ports": [
+          "axi_controller/M03_AXI",
+          "microblaze_interrupt_controller/s_axi"
+        ]
+      },
+      "axi_controller_M04_AXI": {
+        "interface_ports": [
+          "axi_controller/M04_AXI",
+          "gpio_controller/S_AXI"
+        ]
+      },
+      "axi_controller_M05_AXI": {
+        "interface_ports": [
+          "axi_controller/M05_AXI",
+          "video_timing_controller/ctrl"
+        ]
+      },
+      "axi_iic_0_IIC": {
+        "interface_ports": [
+          "HDMI_DDC",
+          "hdmi_ddc_controller/IIC"
+        ]
+      },
+      "axi_intc_0_interrupt": {
+        "interface_ports": [
+          "microblaze_interrupt_controller/interrupt",
+          "microblaze_0/INTERRUPT"
+        ]
+      },
+      "frame_buffer_DMA_m_axi_mm_video": {
+        "interface_ports": [
+          "frame_buffer_DMA/m_axi_mm_video",
+          "axi_controller/S02_AXI"
+        ]
+      },
+      "frame_buffer_DMA_m_axis_video": {
+        "interface_ports": [
+          "frame_buffer_DMA/m_axis_video",
+          "video_stream_to_video/video_in"
         ]
       },
       "microblaze_0_M_AXI_DP": {
@@ -944,25 +1607,60 @@
           "axi_controller/M00_AXI",
           "memory_controller/S_AXI"
         ]
+      },
+      "v_axi4s_vid_out_0_vid_io_out": {
+        "interface_ports": [
+          "video_stream_to_video/vid_io_out",
+          "hdmi_phy/RGB"
+        ]
+      },
+      "v_tc_0_vtiming_out": {
+        "interface_ports": [
+          "video_stream_to_video/vtiming_in",
+          "video_timing_controller/vtiming_out"
+        ]
       }
     },
     "nets": {
+      "axi_i2c_reset_peripheral_aresetn": {
+        "ports": [
+          "axi_i2c_reset/peripheral_aresetn",
+          "hdmi_ddc_controller/s_axi_aresetn"
+        ]
+      },
+      "axi_iic_0_iic2intc_irpt": {
+        "ports": [
+          "hdmi_ddc_controller/iic2intc_irpt",
+          "interrupt_slice/In1"
+        ]
+      },
       "clk_in1_0_1": {
         "ports": [
           "clk_50m",
-          "memory_clock_generator/clk_in1"
+          "memory_clock_generator/clk_in1",
+          "hdmi_clock/clk_in1"
         ]
       },
       "clk_wiz_0_clk_200m": {
         "ports": [
           "memory_clock_generator/clk_200m",
-          "memory_controller/clk_ref_i"
+          "memory_controller/clk_ref_i",
+          "hdmi_ddc_controller/s_axi_aclk",
+          "axi_controller/aclk4",
+          "axi_i2c_reset/slowest_sync_clk"
         ]
       },
       "clk_wiz_0_clk_400m": {
         "ports": [
           "memory_clock_generator/clk_400m",
-          "memory_controller/sys_clk_i"
+          "memory_controller/sys_clk_i",
+          "frame_buffer_DMA/ap_clk",
+          "axi_controller/aclk3",
+          "rst_memory_clock_generator_400M/slowest_sync_clk",
+          "microblaze_interrupt_controller/s_axi_aclk",
+          "gpio_controller/s_axi_aclk",
+          "video_stream_to_video/aclk",
+          "video_timing_controller/s_axi_aclk"
         ]
       },
       "ext_reset_in_0_1": {
@@ -970,7 +1668,46 @@
           "pcie_reset",
           "memory_reset_controller/ext_reset_in",
           "pcie_reset_controller/ext_reset_in",
-          "memory_controller/sys_rst"
+          "memory_controller/sys_rst",
+          "rst_memory_clock_generator_400M/ext_reset_in"
+        ]
+      },
+      "frame_buffer_DMA_interrupt": {
+        "ports": [
+          "frame_buffer_DMA/interrupt",
+          "interrupt_slice/In0"
+        ]
+      },
+      "gpio_controller_gpio_io_o": {
+        "ports": [
+          "gpio_controller/gpio_io_o",
+          "reset_slice/Din",
+          "hdmi_enable_slice/Din"
+        ]
+      },
+      "hdmi_clock_clk_ser_720p": {
+        "ports": [
+          "hdmi_clock/clk_ser_720p",
+          "hdmi_phy/SerialClk"
+        ]
+      },
+      "hdmi_clock_clock_720p": {
+        "ports": [
+          "hdmi_clock/clock_720p",
+          "hdmi_phy/PixelClk",
+          "video_timing_controller/clk"
+        ]
+      },
+      "hdmi_clock_locked": {
+        "ports": [
+          "hdmi_clock/locked",
+          "video_timing_controller/clken"
+        ]
+      },
+      "hdmi_enable_slice_Dout": {
+        "ports": [
+          "hdmi_enable_slice/Dout",
+          "hdmi_enable"
         ]
       },
       "mdm_1_debug_sys_rst": {
@@ -1050,6 +1787,40 @@
           "pcie_controller/axi_aresetn"
         ]
       },
+      "reset_slice_Dout": {
+        "ports": [
+          "reset_slice/Dout",
+          "video_stream_to_video/aresetn",
+          "hdmi_phy/aRst_n",
+          "video_timing_controller/resetn",
+          "hdmi_clock/resetn",
+          "axi_i2c_reset/ext_reset_in"
+        ]
+      },
+      "rgb2dvi_0_TMDS_Clk_n": {
+        "ports": [
+          "hdmi_phy/TMDS_Clk_n",
+          "HDMI_TMDS_clk_n"
+        ]
+      },
+      "rgb2dvi_0_TMDS_Clk_p": {
+        "ports": [
+          "hdmi_phy/TMDS_Clk_p",
+          "HDMI_TMDS_clk_p"
+        ]
+      },
+      "rgb2dvi_0_TMDS_Data_n": {
+        "ports": [
+          "hdmi_phy/TMDS_Data_n",
+          "HDMI_TMDS_data_n"
+        ]
+      },
+      "rgb2dvi_0_TMDS_Data_p": {
+        "ports": [
+          "hdmi_phy/TMDS_Data_p",
+          "HDMI_TMDS_data_p"
+        ]
+      },
       "rst_memory_clock_generator_100M_bus_struct_reset": {
         "ports": [
           "rst_memory_clock_generator_100M/bus_struct_reset",
@@ -1062,10 +1833,25 @@
           "microblaze_0/Reset"
         ]
       },
+      "rst_memory_clock_generator_400M_peripheral_aresetn": {
+        "ports": [
+          "rst_memory_clock_generator_400M/peripheral_aresetn",
+          "frame_buffer_DMA/ap_rst_n",
+          "microblaze_interrupt_controller/s_axi_aresetn",
+          "gpio_controller/s_axi_aresetn",
+          "video_timing_controller/s_axi_aresetn"
+        ]
+      },
       "util_ds_buf_0_IBUF_OUT": {
         "ports": [
           "pcie_clock_generator/IBUF_OUT",
           "pcie_controller/REFCLK"
+        ]
+      },
+      "xlconcat_0_dout": {
+        "ports": [
+          "interrupt_slice/dout",
+          "microblaze_interrupt_controller/intr"
         ]
       }
     },
@@ -1074,10 +1860,37 @@
         "address_spaces": {
           "M_AXI": {
             "segments": {
+              "SEG_axi_iic_0_Reg": {
+                "address_block": "/hdmi_ddc_controller/S_AXI/Reg",
+                "offset": "0x40800000",
+                "range": "64K"
+              },
+              "SEG_axi_intc_0_Reg": {
+                "address_block": "/microblaze_interrupt_controller/S_AXI/Reg",
+                "offset": "0x41200000",
+                "range": "64K"
+              },
+              "SEG_frame_buffer_DMA_Reg": {
+                "address_block": "/frame_buffer_DMA/s_axi_CTRL/Reg",
+                "offset": "0x44A00000",
+                "range": "64K",
+                "offset_base_param": "C_S_AXI_CTRL_BASEADDR",
+                "offset_high_param": "C_S_AXI_CTRL_HIGHADDR"
+              },
+              "SEG_gpio_controller_Reg": {
+                "address_block": "/gpio_controller/S_AXI/Reg",
+                "offset": "0x40000000",
+                "range": "64K"
+              },
               "SEG_memory_controller_memaddr": {
                 "address_block": "/memory_controller/memmap/memaddr",
                 "offset": "0x00000000",
-                "range": "1048560K"
+                "range": "1G"
+              },
+              "SEG_video_timing_controller_Reg": {
+                "address_block": "/video_timing_controller/ctrl/Reg",
+                "offset": "0x44A10000",
+                "range": "64K"
               }
             }
           }
@@ -1087,16 +1900,43 @@
         "address_spaces": {
           "Data": {
             "segments": {
+              "SEG_axi_iic_0_Reg": {
+                "address_block": "/hdmi_ddc_controller/S_AXI/Reg",
+                "offset": "0x40800000",
+                "range": "64K"
+              },
+              "SEG_axi_intc_0_Reg": {
+                "address_block": "/microblaze_interrupt_controller/S_AXI/Reg",
+                "offset": "0x41200000",
+                "range": "64K"
+              },
               "SEG_dlmb_bram_if_cntlr_Mem": {
                 "address_block": "/microblaze_0_local_memory/dlmb_bram_if_cntlr/SLMB/Mem",
                 "offset": "0x80000000",
                 "range": "8K",
                 "offset_high_param": "C_HIGHADDR"
               },
+              "SEG_frame_buffer_DMA_Reg": {
+                "address_block": "/frame_buffer_DMA/s_axi_CTRL/Reg",
+                "offset": "0x44A00000",
+                "range": "64K",
+                "offset_base_param": "C_S_AXI_CTRL_BASEADDR",
+                "offset_high_param": "C_S_AXI_CTRL_HIGHADDR"
+              },
+              "SEG_gpio_controller_Reg": {
+                "address_block": "/gpio_controller/S_AXI/Reg",
+                "offset": "0x40000000",
+                "range": "64K"
+              },
               "SEG_memory_controller_memaddr": {
                 "address_block": "/memory_controller/memmap/memaddr",
-                "offset": "0x3FFFC000",
-                "range": "16K"
+                "offset": "0x00000000",
+                "range": "1G"
+              },
+              "SEG_video_timing_controller_Reg": {
+                "address_block": "/video_timing_controller/ctrl/Reg",
+                "offset": "0x44A10000",
+                "range": "64K"
               }
             }
           },
@@ -1107,6 +1947,51 @@
                 "offset": "0x80002000",
                 "range": "8K",
                 "offset_high_param": "C_HIGHADDR"
+              }
+            }
+          }
+        }
+      },
+      "/frame_buffer_DMA": {
+        "address_spaces": {
+          "Data_m_axi_mm_video": {
+            "segments": {
+              "SEG_axi_iic_0_Reg": {
+                "address_block": "/hdmi_ddc_controller/S_AXI/Reg",
+                "offset": "0x40800000",
+                "range": "64K",
+                "is_excluded": "TRUE"
+              },
+              "SEG_axi_intc_0_Reg": {
+                "address_block": "/microblaze_interrupt_controller/S_AXI/Reg",
+                "offset": "0x41200000",
+                "range": "64K",
+                "is_excluded": "TRUE"
+              },
+              "SEG_frame_buffer_DMA_Reg": {
+                "address_block": "/frame_buffer_DMA/s_axi_CTRL/Reg",
+                "offset": "0x44A00000",
+                "range": "64K",
+                "is_excluded": "TRUE",
+                "offset_base_param": "C_S_AXI_CTRL_BASEADDR",
+                "offset_high_param": "C_S_AXI_CTRL_HIGHADDR"
+              },
+              "SEG_gpio_controller_Reg": {
+                "address_block": "/gpio_controller/S_AXI/Reg",
+                "offset": "0x40000000",
+                "range": "64K",
+                "is_excluded": "TRUE"
+              },
+              "SEG_memory_controller_memaddr": {
+                "address_block": "/memory_controller/memmap/memaddr",
+                "offset": "0x00000000",
+                "range": "1G"
+              },
+              "SEG_video_timing_controller_Reg": {
+                "address_block": "/video_timing_controller/ctrl/Reg",
+                "offset": "0x44A10000",
+                "range": "64K",
+                "is_excluded": "TRUE"
               }
             }
           }
